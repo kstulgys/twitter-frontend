@@ -1,0 +1,53 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+span {
+  cursor: pointer;
+}
+
+.nav-image {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-image:hover .nav-logout {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0.3rem);
+}
+
+.nav-logout {
+  position: absolute;
+  top: 2.5rem;
+  left: 1rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.btn-link {
+  text-decoration: none !important;
+}
+
+.profile-image {
+  object-fit: cover;
+}
