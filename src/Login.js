@@ -10,6 +10,6 @@ export default function Login() {
       >
         Sign In
       </a>
-    </div>
+    </div >
   )
 }

@@ -1,11 +1,11 @@
-const env = process.env.NODE_ENV || "development"
+const env = process.env.REACT_APP_NODE_ENV || "dev"
 
 const devConfig = {
-  serverUrl: process.env.SERVER_URL_DEV
+  serverUrl: process.env.REACT_APP_SERVER_URL_DEV
 }
 
 const prodConfig = {
-  serverUrl: process.env.SERVER_URL_PROD
+  serverUrl: process.env.REACT_APP_SERVER_URL_PROD
 }
 
 let envConfig = {}
