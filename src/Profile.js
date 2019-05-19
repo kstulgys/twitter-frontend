@@ -4,32 +4,14 @@ import { getUserData } from "./API"
 
 export default function Profile() {
   const { state, setState } = store.useStore()
-  function getImage() {
-    return (
-      state.user &&
-      state.user.profile_image_url &&
-      state.user.profile_image_url.replace("_normal", "")
-    )
-  }
-  async function setTweets() {
-    const res = await getUserData({ authToken: state.authToken })
-    console.log(res)
-    setState(state => {
-      state.user = res.user
-    })
-  }
-
-  useEffect(() => {
-    setTweets()
-  }, [state.authToken])
 
   return (
     <div>
       <div>
         <img
-          src={state.user && getImage()}
+          src={state.user.profile_image_url}
           alt="user-image"
-          class="rounded-circle shadow profile-image"
+          className="rounded-circle shadow profile-image"
           style={{ width: "150px", height: "150px" }}
         />
       </div>
@@ -38,7 +20,7 @@ export default function Profile() {
         <h6 className="font-weight-bold text-muted my-1">
           @{state.user && state.user.screen_name}
         </h6>
-        <p class="text-muted">{state.user && state.user.location}</p>
+        <p className="text-muted">{state.user && state.user.location}</p>
       </div>
     </div>
   )

@@ -3,41 +3,46 @@ import Tweet from "./Tweet"
 import store from "./Store"
 import { getUserTweets, getFavouriteTweets } from "./API"
 
-export default function MyTweets() {
+export default function UserTweets() {
   const { state, setState } = store.useStore()
   const [active, setActive] = useState("tweets")
 
-  async function setTweets() {
-    const res = await getUserTweets({ authToken: state.authToken })
-    setState(state => {
-      state.tweets = res.tweets
-    })
+  async function setUserTweets() {
+    try {
+      const { tweets = [] } = await getUserTweets({
+        authToken: state.authToken
+      })
+      setState(state => {
+        state.userTweets = tweets
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async function setFavouriteTweets() {
     try {
-      const res = await getFavouriteTweets({
+      const { tweets = [] } = await getFavouriteTweets({
         authToken: state.authToken,
         name: state.user.screen_name
       })
       setState(state => {
-        state.favorites = res.tweets
+        state.favorites = tweets
       })
-      console.log("favs", state.favorites)
     } catch (e) {
       console.log(e.message)
     }
   }
 
   useEffect(() => {
-    setTweets()
+    setUserTweets()
     setFavouriteTweets()
   }, [])
 
   return (
     <div>
       <div className="d-flex mb-4" style={{ justifyContent: "space-evenly" }}>
-        <button class="btn btn-link">
+        <button className="btn btn-link">
           <h4
             className={`${active === "tweets" ? "font-weight-bold" : ""}`}
             onClick={() => setActive("tweets")}
@@ -46,7 +51,7 @@ export default function MyTweets() {
           </h4>
         </button>
 
-        <button class="btn btn-link">
+        <button className="btn btn-link">
           <h4
             className={`${active === "favorites" ? "font-weight-bold" : ""}`}
             onClick={() => setActive("favorites")}
@@ -56,15 +61,15 @@ export default function MyTweets() {
         </button>
       </div>
       {active === "tweets" ? (
-        <UserTweets tweets={state.tweets && state.tweets} />
+        <MyTweets tweets={state.userTweets} />
       ) : (
-        <FavoriteTweets tweets={state.favorites && state.favorites} />
+        <FavoriteTweets tweets={state.favorites} />
       )}
     </div>
   )
 }
 
-function UserTweets({ tweets }) {
+function MyTweets({ tweets }) {
   return (
     <>
       {tweets &&
@@ -76,7 +81,6 @@ function UserTweets({ tweets }) {
 }
 
 function FavoriteTweets({ tweets }) {
-  console.log("tweets fav", tweets)
   return (
     <>
       {tweets &&

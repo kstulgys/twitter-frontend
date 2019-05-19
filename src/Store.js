@@ -11,7 +11,7 @@ function makeStore() {
       authToken: null,
       tweets: [],
       favorites: [],
-      timelineTweets: [],
+      userTweets: [],
       user: {}
     })
 

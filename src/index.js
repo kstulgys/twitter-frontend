@@ -12,9 +12,26 @@ import Welcome from "./Welcome"
 import store from "./Store"
 import useAuth from "./useAuth"
 
+import { getUserInfo } from "./API"
+
 function App() {
   const auth = useAuth()
   const { state, setState } = store.useStore()
+
+  async function getUser() {
+    const { user = {} } = await getUserInfo(state.authToken)
+    const profile_image_url = user.profile_image_url.replace("_normal", "")
+    setState(state => {
+      state.user = user
+      state.user.profile_image_url = profile_image_url
+    })
+  }
+
+  useEffect(() => {
+    if (state.authToken) {
+      getUser()
+    }
+  }, [state.authToken])
 
   return (
     <div className="bg-light" style={{ minHeight: "100vh" }}>

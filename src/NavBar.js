@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react"
 import Login from "./Login"
 import store from "./Store"
-import { searchTweets, createTweet } from "./API"
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  FormTextarea
-} from "shards-react"
+import { searchTweets, createTweet, getTimelineTweets } from "./API"
+import { Button, Modal, ModalBody, FormTextarea } from "shards-react"
 
 export default function NavBar() {
   const { state, setState } = store.useStore()
@@ -16,24 +10,40 @@ export default function NavBar() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    await setTweets(searchQuery)
+    if (searchQuery === "") {
+      await setUserTweets()
+    } else {
+      await setSearchTweets(searchQuery)
+    }
     setSearchQuery("")
+  }
+
+  async function setSearchTweets(query) {
+    const { tweets = [] } = await searchTweets({
+      authToken: state.authToken,
+      query
+    })
+    setState(state => {
+      state.tweets = tweets.statuses
+    })
+  }
+
+  async function setUserTweets() {
+    try {
+      const res = await getTimelineTweets({ authToken: state.authToken })
+      console.log(res)
+      setState(state => {
+        state.tweets = res.tweets
+      })
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   function signout() {
     window.localStorage.removeItem("authToken")
     setState(state => {
       state.authToken = null
-      state.tweets = []
-      state.timelineTweets = []
-    })
-  }
-
-  async function setTweets(query) {
-    const res = await searchTweets({ authToken: state.authToken, query })
-    console.log(res)
-    setState(state => {
-      state.timelineTweets = res.tweets.statuses
     })
   }
 
@@ -41,20 +51,20 @@ export default function NavBar() {
     <nav className="shadow py-2 bg-white">
       <div className="container d-flex align-items-center justify-content-between">
         <span>
-          <i class="fab fa-twitter fa-2x" />
+          <i className="fab fa-twitter fa-2x" />
         </span>
         <div className="d-flex">
           {state.authToken && (
             <form onSubmit={handleSubmit}>
-              <div class="input-group input-group-seamless">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <i class="fas fa-search" />
+              <div className="input-group input-group-seamless">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">
+                    <i className="fas fa-search" />
                   </div>
                 </div>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   aria-label="Text input with checkbox"
                   placeholder="search tweets"
                   value={searchQuery}
@@ -66,15 +76,18 @@ export default function NavBar() {
           <div className="d-flex align-items-center">
             {state.authToken ? (
               <>
-                <div class="nav-image">
+                <div className="nav-image">
                   <img
                     src={state.user && state.user.profile_image_url}
                     alt="..."
-                    class="rounded-circle mx-4"
+                    className="rounded-circle mx-4"
                     style={{ width: "40px", height: "40px" }}
                   />
-                  <span class="badge badge-dark nav-logout" onClick={signout}>
-                    <p>Logout</p>
+                  <span
+                    className="badge badge-dark nav-logout"
+                    onClick={signout}
+                  >
+                    <p>Sign Out</p>
                   </span>
                 </div>
                 <TweetModal />
@@ -101,15 +114,14 @@ function TweetModal() {
         authToken: state.authToken,
         update: value
       })
-      console.log(res)
       setState(state => {
+        state.userTweets.unshift(res.tweet)
         state.tweets.unshift(res.tweet)
-        state.timelineTweets.unshift(res.tweet)
       })
       setValue("")
       toggle(false)
     } catch (e) {
-      alert(e.message)
+      console.log(e)
     }
   }
 

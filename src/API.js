@@ -8,6 +8,16 @@ export const getFavouriteTweets = async ({ authToken, name }) => {
   }).then(r => r.json())
 }
 
+export const unfavouriteTweet = async ({ authToken, id }) => {
+  return await fetch("http://localhost:4000/unfavorite", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ authToken, id }) // body data type must match "Content-Type" header
+  }).then(r => r.json())
+}
+
 export const setFavouriteTweet = async ({ authToken, id }) => {
   return await fetch("http://localhost:4000/favorite", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -58,12 +68,12 @@ export const getTimelineTweets = async params => {
   }).then(r => r.json())
 }
 
-export const getUserData = async params => {
+export const getUserInfo = async authToken => {
   return await fetch("http://localhost:4000/user", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken: params.authToken }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken }) // body data type must match "Content-Type" header
   }).then(r => r.json())
 }

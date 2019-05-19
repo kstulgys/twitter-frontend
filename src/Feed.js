@@ -9,9 +9,8 @@ export default function Feed() {
   async function setTweets() {
     try {
       const res = await getTimelineTweets({ authToken: state.authToken })
-      console.log(res)
       setState(state => {
-        state.timelineTweets = res.tweets
+        state.tweets = res.tweets
       })
     } catch (e) {
       console.log(e.message)
@@ -24,14 +23,16 @@ export default function Feed() {
 
   return (
     <div>
-      <button class="btn btn-link">
+      <button className="btn btn-link">
         <h4 className="mb-4 font-weight-bold">feed</h4>
       </button>
-      {state.timelineTweets &&
-        state.timelineTweets.length > 1 &&
-        state.timelineTweets.map(tweet => {
+      {state.tweets && state.tweets.length > 1 ? (
+        state.tweets.map(tweet => {
           return <Tweet key={tweet.id} tweet={tweet} />
-        })}
+        })
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   )
 }
