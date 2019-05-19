@@ -1,4 +1,4 @@
-import config from "../config"
+import config from "./config"
 
 export const getFavouriteTweets = async ({ authToken, name }) => {
   return await fetch(`${config.serverUrl}/favorites`, {
