@@ -1,0 +1,26 @@
+const env = process.env.NODE_ENV || "development"
+
+const devConfig = {
+  serverUrl: process.env.SERVER_URL_DEV
+}
+
+const prodConfig = {
+  serverUrl: process.env.SERVER_URL_PROD
+}
+
+let envConfig = {}
+
+switch (env) {
+  case "dev":
+  case "development":
+    envConfig = devConfig
+    break
+  case "prod":
+  case "production":
+    envConfig = prodConfig
+    break
+  default:
+    envConfig = devConfig
+}
+
+export default envConfig

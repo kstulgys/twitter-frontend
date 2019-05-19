@@ -1,79 +1,81 @@
+import config from "../config"
+
 export const getFavouriteTweets = async ({ authToken, name }) => {
-  return await fetch("http://localhost:4000/favorites", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/favorites`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken, name }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken, name })
   }).then(r => r.json())
 }
 
 export const unfavouriteTweet = async ({ authToken, id }) => {
-  return await fetch("http://localhost:4000/unfavorite", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/unfavorite`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken, id }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken, id })
   }).then(r => r.json())
 }
 
 export const setFavouriteTweet = async ({ authToken, id }) => {
-  return await fetch("http://localhost:4000/favorite", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/favorite`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken, id }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken, id })
   }).then(r => r.json())
 }
 
 export const createTweet = async ({ authToken, update }) => {
-  return await fetch("http://localhost:4000/update", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/update`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken, update }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken, update })
   }).then(r => r.json())
 }
 
 export const searchTweets = async params => {
-  return await fetch("http://localhost:4000/search", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/search`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken: params.authToken, query: params.query }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken: params.authToken, query: params.query })
   }).then(r => r.json())
 }
 
 export const getUserTweets = async ({ authToken }) => {
-  return await fetch("http://localhost:4000/timeline", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/timeline`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken })
   }).then(r => r.json())
 }
 
 export const getTimelineTweets = async params => {
-  return await fetch("http://localhost:4000/home", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/home`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken: params.authToken }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken: params.authToken })
   }).then(r => r.json())
 }
 
 export const getUserInfo = async authToken => {
-  return await fetch("http://localhost:4000/user", {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+  return await fetch(`${config.serverUrl}/user`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ authToken }) // body data type must match "Content-Type" header
+    body: JSON.stringify({ authToken })
   }).then(r => r.json())
 }
