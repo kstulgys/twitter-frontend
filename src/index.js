@@ -14,6 +14,9 @@ import useAuth from "./useAuth"
 
 import { getUserInfo } from "./API"
 
+import { config } from "dotenv"
+config()
+
 function App() {
   const auth = useAuth()
   const { state, setState } = store.useStore()
