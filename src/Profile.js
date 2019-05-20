@@ -9,7 +9,7 @@ export default function Profile() {
     <div>
       <div>
         <img
-          src={state.user.profile_image_url}
+          src={state.user && state.user.profile_image_url}
           alt="user-image"
           className="rounded-circle shadow profile-image"
           style={{ width: "150px", height: "150px" }}
