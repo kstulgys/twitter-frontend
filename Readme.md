@@ -1,4 +1,4 @@
-# Twitter-test
+# Twitter-test-task
 
 I was given a task to create:
 
